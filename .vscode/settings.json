@@ -1,0 +1,8 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "c:\\Users\\Dell\\Downloads\\mysql-connector-java-8.0.11.jar",
+        "c:\\Users\\Dell\\Downloads\\javax.servlet-api-4.0.1.jar"
+    ],
+    "java.debug.settings.onBuildFailureProceed": true
+}

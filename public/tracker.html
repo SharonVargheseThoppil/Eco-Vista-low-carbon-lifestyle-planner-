@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="css/tracker.css" type="text/css"/>
+    <title>Carbon Footprint Tracker</title>
+    
+</head>
+<body>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Check session status from the server
+            fetch('/auth/check-session')
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.loggedIn) {
+                        alert('Please log in to view this page');
+                        window.location.href = '/'; // Redirect to home page
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while checking session status.');
+                    window.location.href = '/'; // Redirect to home page in case of error
+                });
+        });
+    </script>
+    
+    <div class="content">
+        <header>
+            <div class="logo-container">
+                <img src="home images/nature (1).png" alt="Logo" class="logo">
+                <span class="logo-text">Eco Vista</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="home.html">
+                        <svg width="140px" height="50px" viewBox="0 0 140 50" class="border">
+                            <polyline points="139,1 139,49 1,49 1,1 139,1" class="bg-line" />
+                            <polyline points="139,1 139,49 1,49 1,1 139,1" class="hl-line" />
+                        </svg>
+                        <span>Home</span>
+                    </a></li>
+                    <li><a href="about.html">
+                        <svg width="140px" height="50px" viewBox="0 0 140 50" class="border">
+                            <polyline points="139,1 139,49 1,49 1,1 139,1" class="bg-line" />
+                            <polyline points="139,1 139,49 1,49 1,1 139,1" class="hl-line" />
+                        </svg>
+                        <span>About</span>
+                    </a></li>
+                    <li class="dropdown">
+                        <button>
+                            <svg width="140px" height="50px" viewBox="0 0 140 50" class="border">
+                                <polyline points="139,1 139,49 1,49 1,1 139,1" class="bg-line" />
+                                <polyline points="139,1 139,49 1,49 1,1 139,1" class="hl-line" />
+                            </svg>
+                            <span>Services</span>
+                        </button>
+                        <div class="dropdown-content">
+                            <a href="tracker.html">Tracker</a>
+                            <a href="cal.html">Calculator</a>
+                            <a href="prod.html">Products</a>
+                            <a href="transport.html">Transportation</a>
+                        </div>
+                    </li>
+                  
+                </ul>
+            </nav>
+        </header>
+        
+        <div class="container">
+            <h1>Your Carbon Footprint Tracker</h1>
+            <canvas id="carbonChart"></canvas>
+            <div id="comparisonMessage"></div> <!-- Element to display the comparison message -->
+        </div>
+        <script>
+        document.addEventListener('DOMContentLoaded', async function () {
+            try {
+                // Retrieve user data from local storage
+                const userData = localStorage.getItem('user');
+                const sessionData = userData ? JSON.parse(userData) : null;
+                
+                
+                console.log('Session Data:', sessionData); // Log session data for debugging
+
+                // Check if the user object exists and contains a username
+                const username = sessionData.username;
+                if (!username) {
+                    throw new Error('Username is not available in session data');
+                }
+
+                console.log('Username:', username); // Log username for debugging
+
+                // Fetch records for the current user
+                const recordsResponse = await fetch(`/records/${username}`);
+                if (!recordsResponse.ok) {
+                    throw new Error('Failed to fetch records');
+                }
+
+                const userRecords = await recordsResponse.json();
+                console.log('User Records:', userRecords); // Log user records for debugging
+
+                // Check if records exist before creating the chart
+                if (userRecords && userRecords.length > 0) {
+                    // Process data for Chart.js
+                    const labels = userRecords.map(record => new Date(record.timestamp).toLocaleDateString());
+                    const footprints = userRecords.map(record => record.carbonFootprint);
+
+                    // Calculate comparison with previous record
+                    const lastRecord = userRecords[0];
+                    const secondLastRecord = userRecords.length > 1 ? userRecords[1] : null;
+
+                    let comparisonMessage = '';
+                    if (secondLastRecord) {
+                        if (lastRecord.carbonFootprint < secondLastRecord.carbonFootprint) {
+                            comparisonMessage = 'Great job! You have improved your carbon footprint compared to your previous record.';
+                        } else if (lastRecord.carbonFootprint > secondLastRecord.carbonFootprint) {
+                            comparisonMessage = 'Your carbon footprint has increased compared to your previous record. Consider taking steps to reduce it.';
+                        } else {
+                            comparisonMessage = 'Your carbon footprint remains the same as your previous record.';
+                        }
+                    } else {
+                        comparisonMessage = 'This is your first record. Keep tracking to see your progress over time!';
+                    }
+
+                    // Display the comparison message
+                    document.getElementById('comparisonMessage').innerText = comparisonMessage;
+
+                    // Create the bar chart
+                    const ctx = document.getElementById('carbonChart').getContext('2d');
+                    new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                label: 'Carbon Footprint (kg CO2e)',
+                                data: footprints,
+                                backgroundColor: 'rgba(75, 192, 192, 0.2)', 
+                                borderColor: 'rgba(0, 128, 128, 0.8)',       
+
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+                } else {
+                    document.getElementById('comparisonMessage').innerText = 'No records found. Start tracking your carbon footprint today!';
+                }
+            } catch (error) {
+                console.error('Error:', error.message);
+                document.getElementById('comparisonMessage').innerText = 'Failed to fetch records. Please try again later.';
+            }
+        });
+    </script>
+        
+        
+    </div>
+
+   
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="logo">
+                    <img src="home images/nature (1).png" alt="Logo">
+                    <div class="logo-text">Eco Vista</div>
+                </div>
+                <div class="contact-info">
+                    <h3>Contact Us</h3>
+                    <ul>
+                        <li><a href="mailto:thoppil.sharon@gmail.com">Email Us: thoppil.sharon@gmail.com</a></li>
+                        <li><a href="tel:+9702932919">Call Us: 9702932919</a></li>
+
+                    </ul>
+                </div>
+                <div class="social-media">
+                    <a href="https://www.facebook.com" class="social-icon facebook" target="_blank" rel="noopener noreferrer">
+                        <img src="home images/facebook.png" alt="Facebook">
+                    </a>
+                    <a href="https://www.instagram.com" class="social-icon instagram" target="_blank" rel="noopener noreferrer">
+                        <img src="home images/instagram.png" alt="Instagram">
+                    </a>
+                    <!-- Add more social icons as needed -->
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Eco Vista. All rights reserved.</p>
+            </div>
+        </footer>
+</body>
+</html>

@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="css/about.css" type="text/css"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About us-Low Carbon Lifestyle Planner</title>
+   
+</head>
+
+<body>
+    <div class="content">
+        <header>
+            <div class="logo-container">
+                <img src="home images/nature (1).png" alt="Logo" class="logo">
+                <span class="logo-text">Eco Vista</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="home.html">
+                        <svg width="140px" height="50px" viewBox="0 0 140 50" class="border">
+                            <polyline points="139,1 139,49 1,49 1,1 139,1" class="bg-line" />
+                            <polyline points="139,1 139,49 1,49 1,1 139,1" class="hl-line" />
+                        </svg>
+                        <span>Home</span>
+                    </a></li>
+                    <li><a href="about.html">
+                        <svg width="140px" height="50px" viewBox="0 0 140 50" class="border">
+                            <polyline points="139,1 139,49 1,49 1,1 139,1" class="bg-line" />
+                            <polyline points="139,1 139,49 1,49 1,1 139,1" class="hl-line" />
+                        </svg>
+                        <span>About</span>
+                    </a></li>
+                    <li class="dropdown">
+                        <button class="dropbtn">
+                            <svg width="140px" height="50px" viewBox="0 0 140 50" class="border">
+                                <polyline points="139,1 139,49 1,49 1,1 139,1" class="bg-line" />
+                                <polyline points="139,1 139,49 1,49 1,1 139,1" class="hl-line" />
+                            </svg>
+                            <span>Services</span>
+                        </button>
+                        <div class="dropdown-content">
+                            <a href="tracker.html">Tracker</a>
+                            <a href="cal.html">Calculator</a>
+                            <a href="prod.html">Products</a>
+                            <a href="transport.html">Transport</a>
+                        </div>
+                    </li>
+                    
+                </ul>
+            </nav>
+        </header>
+        <section class="about-us">
+            <div class="about-header">
+                <h1>About us</h1>
+                <p>Eco Vista is a platform dedicated to helping individuals and communities reduce their carbon footprint and embrace<br> 
+                    a more sustainable lifestyle. We provide tools, resources, and information to support<br> eco-friendly choices in daily life.</p>
+            </div>
+            <div class="about-images">
+                <img src="home images/about1.PNG" alt="Image 1">
+                <img class="shape" src="home images/about2.PNG" alt="Image 2">
+                <img src="home images/about3.PNG" alt="Image 3">
+                <img class="shape" src="home images/about4.PNG" alt="Image 4">
+            </div>
+        </section>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // Get all images
+                const images = document.querySelectorAll('.about-images img');
+                
+                // Trigger reflow to restart animations
+                images.forEach(img => {
+                    img.style.animation = 'none'; // Reset animation
+                    img.offsetHeight; // Trigger a reflow
+                    img.style.animation = ''; // Apply animation
+                });
+            });
+        </script>
+       <section class="mission">
+        <div class="mission-header">
+            <h1>Our Mission</h1>
+            <p>We are dedicated to empowering individuals and communities to adopt a low-carbon lifestyle, helping them make sustainable choices for a better future.</p>
+        </div>
+        <div class="mission-cards">
+            <div class="mission-card">
+                <img class="mshape" src="home images/rcarb .jpeg" alt="Reducing Carbon Footprint">
+                <h3>Reducing Carbon Footprint</h3>
+                <p>Our mission is to provide tools and resources to help individuals reduce their carbon footprint in daily life.</p>
+                
+            </div>
+            <div class="mission-card">
+                <img class="mshape" src="home images/sus.jpeg" alt="Innovative Solutions">
+                <h3>Innovative Solutions</h3>
+                <p>We focus on developing and promoting innovative solutions that make sustainable living easier and more accessible.</p>
+                
+            </div>
+            <div class="mission-card">
+                <img class="mshape" src="home images/rc.jpeg" alt="Sustainable Future">
+                <h3>Sustainable Future</h3>
+                <p>We envision a future where sustainable choices are the norm, driving a significant reduction in global carbon emissions.</p>
+                
+            </div>
+        </div>
+    </section>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const missionCards = document.querySelectorAll('.mission-card');
+        
+            // Function to check if an element is in view
+            function isInViewport(el) {
+                const rect = el.getBoundingClientRect();
+                return (
+                    rect.top >= 0 &&
+                    rect.left >= 0 &&
+                    rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+                    rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+                );
+            }
+        
+            // Function to add animation class to cards in view
+            function animateCards() {
+                missionCards.forEach(card => {
+                    if (isInViewport(card)) {
+                        card.classList.add('animate');
+                    }
+                });
+            }
+        
+            // Check on scroll and resize
+            window.addEventListener('scroll', animateCards);
+            window.addEventListener('resize', animateCards);
+        
+            // Initial check
+            animateCards();
+        });
+        </script>
+        
+       
+        <section class="vision-section">
+            <div class="content-container">
+                <div class="text-block">
+                    <h1>Our Vision</h1>
+                    <div class="vshapel">
+                    <div class="vision">
+                        <div class="vision-container">
+                            <div class="icon">
+                                <img src="home images/vision1.jpg" alt="Vision Icon 1">
+                            </div>
+                            <div class="text2">
+                                <h2>Accessibility of Sustainable Living</h2>
+                                <p>We envision a world where sustainable living is accessible to all, driving a global transformation toward a low-carbon economy that preserves our planet for future generations.</p>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="vshaper">
+                    <div class="vision">
+                        <div class="vision-container">
+                        
+                            <div class="text2">
+                                <h2>Empowering Communities</h2>
+                                <p>Our vision includes empowering communities with the knowledge and tools necessary to adopt low-carbon lifestyles, making a significant impact on reducing global carbon emissions.</p>
+                            </div>
+                            <div class="icon">
+                                <img src="home images/vision2.jpeg" alt="Vision Icon 2">
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const visionContainers = document.querySelectorAll('.vision');
+            
+                // Function to check if an element is in view
+                function isInViewport(el) {
+                    const rect = el.getBoundingClientRect();
+                    return (
+                        rect.top >= 0 &&
+                        rect.left >= 0 &&
+                        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+                        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+                    );
+                }
+            
+                // Function to add animation class to vision containers in view
+                function animateVision() {
+                    visionContainers.forEach(container => {
+                        if (isInViewport(container)) {
+                            container.classList.add('animate');
+                        }
+                    });
+                }
+            
+                // Check on scroll and resize
+                window.addEventListener('scroll', animateVision);
+                window.addEventListener('resize', animateVision);
+            
+                // Initial check
+                animateVision();
+            });
+            </script>
+           
+           <section class="founder1">
+            <div class="parallelogram-container">
+                <div class="parallelogram">
+                    <div class="text">FOUNDER</div>
+                </div>
+                <div class="parallelogram"></div>
+            </div>
+    
+            <div class="founder-section">
+                <img  src="home images/image.jpeg" alt="Founder Photo">
+                <div class="content">
+                    <h2>Sharon Varghese Thoppil</h2>
+                    <p>Sharon Varghese Thoppil is the founder of Eco Vista, a low carbon lifestyle planner. She has been a
+                        pioneer in promoting sustainable living and helping people reduce their carbon footprint through
+                        innovative planning and solutions. Her dedication to the environment has made Eco Vista a trusted name
+                        in the industry.</p>
+                </div>
+            </div>
+        </section>
+        
+    
+           
+        </main>
+        <section class="testimonials">
+            <h2>Real Stories from Our Valued Clients</h2>
+            <div class="testimonial-wrapper">
+                <button class="scroll-left">&#10094;</button>
+                <div class="testimonial-cards">
+                    <div class="card yellow">
+                        <p>The Low Carbon Lifestyle Planner helped us reduce our carbon footprint significantly. The personalized approach was exceptional!</p>
+                        <div class="author">
+                            <img src="home images/Joyce.jpeg" alt="Jeena Paul">
+                            <div>
+                                <h3>Joyce Chacko</h3>
+                                <div class="stars">
+                                    ★★★★★
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card light-blue">
+                        <p>Thanks to their unique approach, our family has adopted sustainable habits easily. Highly recommend!</p>
+                        <div class="author">
+                            <img src="home images/Riju.jpeg" alt="Tany Thomas">
+                            <div>
+                                <h3>Varghese Thoppil</h3>
+                                <div class="stars">
+                                    ★★★★★
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card pink">
+                        <p>We achieved new levels of eco-friendly living thanks to their innovative solutions and guidance.</p>
+                        <div class="author">
+                            <img src="home images/Manju.jpeg" alt="Shikha Prabhakaran">
+                            <div>
+                                <h3>Manju Varghese</h3>
+                                <div class="stars">
+                                    ★★★★★
+                                </div>
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+                <button class="scroll-right">&#10095;</button>
+            </div>
+        </section>
+        <script>
+       const scrollAmount = document.querySelector('.testimonial-cards').offsetWidth; // Full width of the container
+
+document.querySelector('.scroll-left').addEventListener('click', function() {
+    document.querySelector('.testimonial-cards').scrollBy({
+        left: -scrollAmount,
+        behavior: 'smooth'
+    });
+});
+
+document.querySelector('.scroll-right').addEventListener('click', function() {
+    document.querySelector('.testimonial-cards').scrollBy({
+        left: scrollAmount,
+        behavior: 'smooth'
+    });
+});
+
+        </script>
+        
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="logo">
+                    <img src="home images/nature (1).png" alt="Logo">
+                    <div class="logo-text">Eco Vista</div>
+                </div>
+                <div class="contact-info">
+                    <h3>Contact Us</h3>
+                    <ul>
+                        <li><a href="mailto:thoppil.sharon@gmail.com">Email Us: thoppil.sharon@gmail.com</a></li>
+                        <li><a href="tel:+9702932919">Call Us: 9702932919</a></li>
+
+                    </ul>
+                </div>
+                <div class="social-media">
+                    <a href="https://www.facebook.com" class="social-icon facebook" target="_blank" rel="noopener noreferrer">
+                        <img src="home images/facebook.png" alt="Facebook">
+                    </a>
+                    <a href="https://www.instagram.com" class="social-icon instagram" target="_blank" rel="noopener noreferrer">
+                        <img src="home images/instagram.png" alt="Instagram">
+                    </a>
+                    <!-- Add more social icons as needed -->
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Eco Vista. All rights reserved.</p>
+            </div>
+        </footer>
+        
+        
+</body>
+</html>

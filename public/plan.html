@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Low Carbon Lifestyle Plan</title>
+    <link rel="stylesheet" href="css/plan.css" type="text/css"/>
+   
+</head>
+<body>
+    <div class="content">
+        <header>
+            <div class="logo-container">
+                <img src="home images/nature (1).png" alt="Logo" class="logo">
+                <span class="logo-text">Eco Vista</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="home.html">
+                        <svg width="140px" height="50px" viewBox="0 0 140 50" class="border">
+                            <polyline points="139,1 139,49 1,49 1,1 139,1" class="bg-line" />
+                            <polyline points="139,1 139,49 1,49 1,1 139,1" class="hl-line" />
+                        </svg>
+                        <span>Home</span>
+                    </a></li>
+                    <li><a href="about.html">
+                        <svg width="140px" height="50px" viewBox="0 0 140 50" class="border">
+                            <polyline points="139,1 139,49 1,49 1,1 139,1" class="bg-line" />
+                            <polyline points="139,1 139,49 1,49 1,1 139,1" class="hl-line" />
+                        </svg>
+                        <span>About</span>
+                    </a></li>
+                    <li class="dropdown">
+                        <a href="#">
+                            <svg width="140px" height="50px" viewBox="0 0 140 50" class="border">
+                                <polyline points="139,1 139,49 1,49 1,1 139,1" class="bg-line" />
+                                <polyline points="139,1 139,49 1,49 1,1 139,1" class="hl-line" />
+                            </svg>
+                            <span>Services</span>
+                        </a>
+                        <div class="dropdown-content">
+                            <a href="tracker.html">Tracker</a>
+                            <a href="cal.html">Calculator</a>
+                            <a href="product.html">Products</a>
+                            <a href="transport.html">Transport</a>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            <div class="container">
+                <h1>Custom Low Carbon Lifestyle Plan</h1>
+                <form id="customPlanForm"   onsubmit="generatePlan()">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" required>
+                                     
+                    <label for="goal">Choose Your Goal:</label>
+                    <select id="goal" name="goal" aria-placeholder="select goal" required>
+                        <option value="">Select your goal</option>
+                        <option value="reduce_transport">Reduce Transport Emissions</option>
+                        <option value="reduce_energy">Reduce Energy Consumption</option>
+                        <option value="reduce_waste">Reduce Waste</option>
+                        <option value="increase_renewables">Increase Renewable Energy Use</option>
+                        <option value="adopt_sustainable_practices">Adopt Sustainable Practices</option>
+                    </select>
+
+                    <button type="submit" >Get Your Plan</button>
+                </form>
+                <div id="planOutput"></div>
+            </div>
+        </main>
+        <script>
+            function generatePlan(event) {
+                event.preventDefault(); // Prevent the default form submission
+        
+                // Get form values
+                var name = document.getElementById("name").value;
+                var goal = document.getElementById("goal").value;
+        
+                var planOutput = document.getElementById("planOutput");
+        
+                // Basic validation
+                if (!name || !goal) {
+                    planOutput.innerHTML = "<p style='color: red;'>Please fill out all required fields.</p>";
+                    return;
+                }
+         
+                var planText = "<h2>Hello, " + name + "!</h2>";
+        
+                // Generate plan based on selected goal
+                switch (goal) {
+                    case "reduce_transport":
+                        planText += "<p>Your goal is to reduce transport emissions. Consider carpooling, using public transportation, or switching to an electric vehicle.</p>";
+                        break;
+                    case "reduce_energy":
+                        planText += "<p>Your goal is to reduce energy consumption. Turn off lights when not in use, use energy-efficient appliances, and consider using solar panels.</p>";
+                        break;
+                    case "reduce_waste":
+                        planText += "<p>Your goal is to reduce waste. Start composting, recycle whenever possible, and reduce the use of single-use plastics.</p>";
+                        break;
+                    case "increase_renewables":
+                        planText += "<p>Your goal is to increase the use of renewable energy. Consider installing solar panels, using wind energy, or purchasing green energy from your provider.</p>";
+                        break;
+                    case "adopt_sustainable_practices":
+                        planText += "<p>Your goal is to adopt sustainable practices. This can include using sustainable materials, reducing water usage, and supporting eco-friendly companies.</p>";
+                        break;
+                    default:
+                        planText += "<p>Invalid goal selected. Please choose a valid option.</p>";
+                }
+        
+                planOutput.innerHTML = planText;
+            }
+        
+            // Attach the function to the form's submit event
+            document.getElementById("customPlanForm").addEventListener("submit", generatePlan);
+        </script>
+        
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="logo">
+                <img src="home images/nature (1).png" alt="Logo">
+                <div class="logo-text">Eco Vista</div>
+            </div>
+            <div class="contact-info">
+                <h3>Contact Us</h3>
+                <ul>
+                    <li><a href="mailto:thoppil.sharon@gmail.com">Email Us: thoppil.sharon@gmail.com</a></li>
+                    <li><a href="tel:+9702932919">Call Us: 9702932919</a></li>
+                    
+                </ul>
+            </div>
+            <div class="social-media">
+                <a href="https://www.facebook.com" class="social-icon facebook" target="_blank" rel="noopener noreferrer">
+                    <img src="home images/facebook.png" alt="Facebook">
+                </a>
+                <a href="https://www.instagram.com" class="social-icon instagram" target="_blank" rel="noopener noreferrer">
+                    <img src="home images/instagram.png" alt="Instagram">
+                </a>
+                <!-- Add more social icons as needed -->
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Eco Vista. All rights reserved.</p>
+        </div>
+    </footer>
+   
+</body>
+</html>

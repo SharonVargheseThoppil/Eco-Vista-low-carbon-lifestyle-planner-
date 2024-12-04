@@ -1,0 +1,219 @@
+
+<html lang="en">
+<head>
+   
+    
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/cal.css" type="text/css"/>
+    <title>Carbon Footprint Calculator</title>
+    
+</head>
+<body>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Check session status from the server
+            fetch('/auth/check-session')
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.loggedIn) {
+                        alert('Please log in to view this page');
+                        window.location.href = '/'; // Redirect to home page
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while checking session status.');
+                    window.location.href = '/'; // Redirect to home page in case of error
+                });
+        });
+    </script>
+    
+    <div class="content">
+        <header>
+            <div class="logo-container">
+                <img src="home images/nature (1).png" alt="Logo" class="logo">
+                <span class="logo-text">Eco Vista</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="home.html">
+                        <svg width="140px" height="50px" viewBox="0 0 140 50" class="border">
+                            <polyline points="139,1 139,49 1,49 1,1 139,1" class="bg-line" />
+                            <polyline points="139,1 139,49 1,49 1,1 139,1" class="hl-line" />
+                        </svg>
+                        <span>Home</span>
+                    </a></li>
+                    <li><a href="about.html">
+                        <svg width="140px" height="50px" viewBox="0 0 140 50" class="border">
+                            <polyline points="139,1 139,49 1,49 1,1 139,1" class="bg-line" />
+                            <polyline points="139,1 139,49 1,49 1,1 139,1" class="hl-line" />
+                        </svg>
+                        <span>About</span>
+                    </a></li>
+                    <li class="dropdown">
+                        <button>
+                            <svg width="140px" height="50px" viewBox="0 0 140 50" class="border">
+                                <polyline points="139,1 139,49 1,49 1,1 139,1" class="bg-line" />
+                                <polyline points="139,1 139,49 1,49 1,1 139,1" class="hl-line" />
+                            </svg>
+                            <span>Services</span>
+                        </button>
+                        <div class="dropdown-content">
+                            <a href="tracker.html">Tracker</a>
+                            <a href="cal.html">Calculator</a>
+                            <a href="prod.html">Product</a>
+                            <a href="transport.html">Transport</a>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+        <div class="container">
+            <h1>Carbon Footprint Calculator</h1>
+            <div class="calculator-grid">
+                <div class="form-section">
+                    <form id="carbonForm">
+                        <label for="username">Username:</label>
+                        <input type="text" id="username" name="username" required>
+        
+                        <label for="transport">Mode of Transport:</label>
+                        <select id="transport" name="transport" required>
+                            <option value="">Select Transport</option>
+                            <option value="car">Car</option>
+                            <option value="bus">Bus</option>
+                            <option value="bike">Bike</option>
+                            <option value="train">Train</option>
+                            <option value="plane">Plane</option>
+                        </select>
+        
+<label for="miles">Miles Driven per Month:</label>
+<input type="number" id="miles" name="miles" required 
+       title="Enter the total miles you drive in a month. You can check your car's odometer or track your daily commute you can even use miles calculator.">
+
+<label for="electricity">Monthly Electricity Bill (₹):</label>
+<input type="number" id="electricity" name="electricity" required 
+       title="Enter your monthly electricity bill amount in rupees (₹). Check your utility bill for this information.">
+
+<label for="waste">Monthly Waste Generated (kg):</label>
+<input type="number" id="waste" name="waste" required 
+       title="Estimate your monthly waste in kilograms. Count the number of trash bags you dispose of weekly, multiply by their average weight, or check with your waste management service." >
+
+                        <button type="submit">Calculate</button>
+                    </form>
+                </div>  
+        
+                <div class="footprint-section">
+                    <img src="home images/carbon-footprint.png" alt="Footprint Image" class="footprint-image">
+                    <div id="result" class="result">
+                        <h2>Your Carbon Footprint is: <span id="carbonOutput"></span> kg CO2e</h2>
+                        <p id="feedback"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <script>
+            document.getElementById("carbonForm").addEventListener("submit", function(event) {
+                event.preventDefault();
+                
+                const username = document.getElementById("username").value;
+                const transport = document.getElementById("transport").value;
+                const miles = parseFloat(document.getElementById("miles").value);
+                const electricity = parseFloat(document.getElementById("electricity").value);
+                const waste = parseFloat(document.getElementById("waste").value);
+        
+                let transportEmissionFactor;
+                switch (transport) {
+                    case 'car':
+                        transportEmissionFactor = 0.411;
+                        break;
+                    case 'bus':
+                        transportEmissionFactor = 0.05;
+                        break;
+                    case 'bike':
+                        transportEmissionFactor = 0;
+                        break;
+                    case 'train':
+                        transportEmissionFactor = 0.14;
+                        break;
+                    case 'plane':
+                        transportEmissionFactor = 0.255;
+                        break;
+                    default:
+                        transportEmissionFactor = 0;
+                }
+        
+                const carbonFootprint = (miles * transportEmissionFactor) + (electricity * 0.85) + (waste * 0.04);
+                document.getElementById("carbonOutput").innerText = carbonFootprint.toFixed(2);
+        
+                let feedback;
+                if (carbonFootprint < 1000) {
+                    feedback = "Great job, " + username + "! Your carbon footprint is below average.";
+                } else if (carbonFootprint < 2000) {
+                    feedback = "Your carbon footprint is average, " + username + ". Consider making some improvements.";
+                } else {
+                    feedback = "Your carbon footprint is above average, " + username + ". Consider reducing it.";
+                }
+        
+                document.getElementById("result").style.display = "block";
+                document.getElementById("feedback").innerText = feedback;
+        
+                // Send data to backend
+                fetch('http://localhost:3000/submit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        username,
+                        transport,
+                        miles,
+                        electricity,
+                        waste,
+                        carbonFootprint
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Data saved to MongoDB:', data);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            });
+        </script>
+        
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="logo">
+                <img src="home images/nature (1).png" alt="Logo">
+                <div class="logo-text">Eco Vista</div>
+            </div>
+            <div class="contact-info">
+                <h3>Contact Us</h3>
+                <ul>
+                    <li><a href="mailto:thoppil.sharon@gmail.com">Email Us: thoppil.sharon@gmail.com</a></li>
+                    <li><a href="tel:+9702932919">Call Us: 9702932919</a></li>
+
+                </ul>
+            </div>
+            <div class="social-media">
+                <a href="https://www.facebook.com" class="social-icon facebook" target="_blank" rel="noopener noreferrer">
+                    <img src="home images/facebook.png" alt="Facebook">
+                </a>
+                <a href="https://www.instagram.com" class="social-icon instagram" target="_blank" rel="noopener noreferrer">
+                    <img src="home images/instagram.png" alt="Instagram">
+                </a>
+                <!-- Add more social icons as needed -->
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Eco Vista. All rights reserved.</p>
+        </div>
+    </footer>
+    
+
+</body>
+</html>

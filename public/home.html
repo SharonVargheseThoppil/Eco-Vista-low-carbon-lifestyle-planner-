@@ -1,0 +1,405 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="css/home.css" type="text/css"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Low Carbon Lifestyle Planner</title>
+   
+</head>
+<body>
+
+<div class="content">
+    <header>
+        <div class="logo-container">
+            <img src="home images/nature (1).png" alt="Logo" class="logo">
+            <span class="logo-text">Eco Vista</span>
+        </div>
+        
+        <nav>
+            <ul>
+                <li><a href="home.html">
+                    <svg width="140px" height="50px" viewBox="0 0 140 50" class="border">
+                        <polyline points="139,1 139,49 1,49 1,1 139,1" class="bg-line" />
+                        <polyline points="139,1 139,49 1,49 1,1 139,1" class="hl-line" />
+                    </svg>
+                    <span>Home</span>
+                </a></li>
+                <li><a href="About.html">
+                    <svg width="140px" height="50px" viewBox="0 0 140 50" class="border">
+                        <polyline points="139,1 139,49 1,49 1,1 139,1" class="bg-line" />
+                        <polyline points="139,1 139,49 1,49 1,1 139,1" class="hl-line" />
+                    </svg>
+                    <span>About</span>
+                </a></li>
+                <li class="dropdown">
+                    <button>
+                        <svg width="140px" height="50px" viewBox="0 0 140 50" class="border">
+                            <polyline points="139,1 139,49 1,49 1,1 139,1" class="bg-line" />
+                            <polyline points="139,1 139,49 1,49 1,1 139,1" class="hl-line" />
+                        </svg>
+                        <span>Services</span>
+                    </button>
+                    <div class="dropdown-content">
+                        <a href="tracker.html">Tracker</a>
+                        <a href="cal.html">Calculator</a>
+                        <a href="prod.html">Products</a>
+                        <a href="transport.html">Transportation</a>
+                    </div>
+                </li>
+                </ul>
+                </nav>
+                <div class="logo">
+                    <a href="javascript:void(0);" id="logoLink" onclick="toggleAuthOptions()">
+                        <img src="home images/login .png" alt="Logo">
+                    </a>
+                    <div id="auth-options" style="display: none;">
+                        <!-- Initially displayed options -->
+                        <button id="loginBtn" onclick="openLogin()">Login</button>
+                        <button id="registerBtn" onclick="openRegister()">Register</button>
+                        
+                        <!-- Logout option, hidden by default -->
+                        <div id="logoutOption" style="display: none;">
+                            <a href="javascript:void(0);" onclick="logout()">Logout</a>
+                        </div>
+                    </div>
+                </div>
+                
+                
+                <!-- Login Modal -->
+                <div id="loginModal" class="modal" style="display: none;">
+                    <div class="modal-content">
+                        <span class="close" onclick="closeModal('loginModal')">&times;</span>
+                        <h2>Login</h2>
+                        <form id="loginForm" onsubmit="login(event)">
+                            <div class="logo1"></div>
+                            <span class="logo-text2">Eco Vista</span>
+                            <div>
+                                <label for="loginUsername">Username:</label>
+                                <input type="text" name="username" id="loginUsername" required>
+                            </div>
+                            <div>
+                                <label for="loginPassword">Password:</label>
+                                <input type="password" name="password" id="loginPassword" required>
+                            </div>
+                            <button type="submit">Login</button>
+                            <p>Don't have an account? <a href="javascript:openRegister()">Register</a></p>
+                        </form>
+                    </div>
+                </div>
+                
+                <!-- Register Modal -->
+                <div id="registerModal" class="modal" style="display: none;">
+                    <div class="modal-content">
+                        <span class="close" onclick="closeModal('registerModal')">&times;</span>
+                        <h2>Register</h2>
+                        <form id="registerForm" onsubmit="register(event)">
+                            <div class="logo1"></div>
+                            <span class="logo-text2">Eco Vista</span>
+                            <div>
+                                <label for="name">Name:</label>
+                                <input type="text" name="name" id="name" required>
+                            </div>
+                            <div>
+                                <label for="registerUsername">Username:</label>
+                                <input type="text" name="username" id="registerUsername" required>
+                            </div>
+                            <div>
+                                <label for="registerPassword">Password:</label>
+                                <input type="password" name="password" id="registerPassword" required>
+                            </div>
+                            <div>
+                                <label for="registerPassword2">Confirm Password:</label>
+                                <input type="password" name="password2" id="registerPassword2" required>
+                            </div>
+                            <button type="submit">Register</button>
+                            <p>Already have an account? <a href="javascript:openLogin()">Login</a></p>
+                        </form>
+                    </div>
+                </div>
+                
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+    checkAuthenticationStatus();
+});
+
+function checkAuthenticationStatus() {
+    fetch('/auth/check-session')
+        .then(response => response.json())
+        .then(data => {
+            const authOptions = document.getElementById('auth-options');
+            const loginBtn = document.getElementById('loginBtn');
+            const registerBtn = document.getElementById('registerBtn');
+            const logoutOption = document.getElementById('logoutOption');
+
+            if (data.loggedIn) {
+                // User is logged in
+                loginBtn.style.display = 'none';
+                registerBtn.style.display = 'none';
+                logoutOption.style.display = 'block';
+            } else {
+                // User is not logged in
+                loginBtn.style.display = 'block';
+                registerBtn.style.display = 'block';
+                logoutOption.style.display = 'none';
+            }
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+function toggleAuthOptions() {
+    var authOptions = document.getElementById("auth-options");
+    if (authOptions.style.display === "none") {
+        authOptions.style.display = "block";
+    } else {
+        authOptions.style.display = "none";
+    }
+}
+
+function openLogin() {
+    closeModal('registerModal');
+    document.getElementById('loginModal').style.display = 'block';
+}
+
+function closeModal(modalId) {
+    document.getElementById(modalId).style.display = 'none';
+}
+
+function openRegister() {
+    closeModal('loginModal');
+    document.getElementById('registerModal').style.display = 'block';
+}
+
+function login(event) {
+    event.preventDefault();
+    fetch('/auth/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            username: document.getElementById('loginUsername').value,
+            password: document.getElementById('loginPassword').value
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            localStorage.setItem('user', JSON.stringify(data.user));
+            closeModal('loginModal');
+            window.location.href = '/'; // Redirect to home page
+        } else {
+            alert('Invalid credentials'); // Show error message
+        }
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+function register(event) {
+    event.preventDefault();
+    fetch('/auth/register', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            name: document.getElementById('name').value,
+            username: document.getElementById('registerUsername').value,
+            password: document.getElementById('registerPassword').value,
+            password2: document.getElementById('registerPassword2').value
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Registration successful. You can now log in.');
+            closeModal('registerModal');
+            openLogin();
+        } else {
+            alert(data.message); // Show error message
+        }
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+function logout() {
+    fetch('/auth/logout')
+        .then(() => {
+            localStorage.removeItem('user');
+            window.location.href = '/'; // Redirect to home page
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+                
+                </script>
+                
+    </header>
+
+    <br><br><br>
+    <main class="main">
+        <h5>Welcome to Low Carbon Lifestyle Planner</h5><br>
+        <h1>Your personalized guide
+            to a sustainable<br> greener future.</h1><br>
+        <h5>Join us and start making a difference today!</h5>
+    </main>
+</div>
+
+<section class="page2">
+    <div class="container">
+        <h1>Explore Our Key Sustainable Features</h1>
+        <div class="features">
+            <div class="feature" data-animation="slide-left">
+                <img src="home images/plan.jpeg" alt="Custom Plans Icon">
+                <h2><a href="plan.html">Custom Plans</a></h2>
+                <p>Discover our lifestyle plans to reduce your carbon footprint and live more sustainably.</p>
+            </div>
+            <div class="feature" data-animation="slide-right">
+                <img src="home images/tip.jpeg" alt="Green Tips Icon">
+                <h2><a href="tip.html">Green Tips</a></h2>
+                <p>Access our green tips for an eco-friendly lifestyle.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const features = document.querySelectorAll('.feature');
+    
+        function checkVisibility() {
+            const windowHeight = window.innerHeight;
+    
+            features.forEach(feature => {
+                const featureTop = feature.getBoundingClientRect().top;
+    
+                if (featureTop < windowHeight - 100) { // Adjust as needed
+                    if (feature.classList.contains('feature')) {
+                        feature.classList.add(feature.dataset.animation);
+                    }
+                }
+            });
+        }
+    
+        // Add scroll event listener
+        window.addEventListener('scroll', checkVisibility);
+    
+        // Initial check in case the features are already in view
+        checkVisibility();
+    });
+    </script>
+    
+    <section class="page3">
+        <div class="box">
+            <div class="content3">
+                <div class="image">
+                    <img src="home images/cycle.PNG" alt="Hands holding a plant">
+                </div>
+                <div class="text">
+                    <h1>Personalized Sustainability Planning Solutions</h1>
+                    <p>Create a customized sustainability plan tailored to your lifestyle and environmental goals. Start your green journey today!</p>
+                    <hr>
+                    <ul>
+                        <li>Eco-friendly Assessments</li>
+                        <li>Customized Eco Goals</li>
+                        <li>Continuous Green Support</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const box = document.querySelector('.box');
+
+            function checkVisibility() {
+                const boxTop = box.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+
+                // Trigger animation if the box is within the viewport
+                if (boxTop < windowHeight - 100) { // Adjust 100px as needed
+                    box.classList.add('zoom-out');
+                }
+            }
+
+            // Add scroll event listener
+            window.addEventListener('scroll', checkVisibility);
+
+            // Initial check in case the box is already in view
+            checkVisibility();
+        });
+    </script>
+
+<section class="page4">
+    <div class="box2">
+        <div class="content2">
+            <div class="image2">
+                <img src="home images/hands.PNG" alt="Person riding a bicycle">
+            </div>
+            <div class="text2">
+                <h1>Highlighting the Low Carbon Lifestyle Advantages</h1>
+                <p>Experience the revolutionary benefits of a low-carbon lifestyle tailored to your unique needs.</p>
+                <hr>
+                <ul>
+                    <li>Tailored Eco Plans</li>
+                    <li>Sustainable Living Tips</li>
+                    <li>Continuous Green Support</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const box2 = document.querySelector('.box2');
+
+        function checkVisibility() {
+            const box2Top = box2.getBoundingClientRect().top;
+            const windowHeight = window.innerHeight;
+
+            // Trigger animation if the box2 is within the viewport
+            if (box2Top < windowHeight - 100) {
+                box2.classList.add('slide-down');
+            }
+        }
+
+        window.addEventListener('scroll', checkVisibility);
+
+        // Initial check in case the box2 is already in view
+        checkVisibility();
+    });
+</script>
+
+<footer class="footer">
+    <div class="footer-content">
+        <div class="logo">
+            <img src="home images/nature (1).png" alt="Logo">
+            <div class="logo-text">Eco Vista</div>
+        </div>
+        <div class="contact-info">
+            <h3>Contact Us</h3>
+            <ul>
+                <li><a href="mailto:thoppil.sharon@gmail.com">Email Us: thoppil.sharon@gmail.com</a></li>
+                <li><a href="tel:+9702932919">Call Us: 9702932919</a></li>
+                
+            </ul>
+        </div>
+        <div class="social-media">
+            <a href="https://www.facebook.com" class="social-icon facebook" target="_blank" rel="noopener noreferrer">
+                <img src="home images/facebook.png" alt="Facebook">
+            </a>
+            <a href="https://www.instagram.com" class="social-icon instagram" target="_blank" rel="noopener noreferrer">
+                <img src="home images/instagram.png" alt="Instagram">
+            </a>
+            <!-- Add more social icons as needed -->
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2024 Eco Vista. All rights reserved.</p>
+    </div>
+</footer>
+</body>
+</html>
